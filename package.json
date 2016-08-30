@@ -1,0 +1,64 @@
+{
+  "name": "canvas-animation",
+  "version": "1.0.0-0",
+  "description": "",
+  "author": "",
+  "main": "src/js/canvas-animation.js",
+  "bin": {
+    "canvas-animation": "bin/canvas-animation.js"
+  },
+  "scripts": {
+    "docs": "jsdoc src/js/canvas-animation/canvas-animation.js -p -d dist/docs/",
+    "setup": "mkdir -p dist/{css,js}",
+    "build": "npm run setup && npm run css && npm run js",
+    "watch": "npm run build && parallelshell \"npm run watch:css\" \"npm run watch:js\"",
+    "css": "node-sass src/scss/main.scss dist/css/main.css --output-style compressed && postcss --use autoprefixer dist/css/*.css -d dist/css/",
+    "watch:css": "onchange 'src/scss/**/*.scss' -- npm run css",
+    "js": "browserify src/js/canvas-animation/canvas-animation.js -o dist/js/canvas-animation.js && browserify -r ./src/js/canvas-animation/canvas-animation.js:canvas-animation > dist/js/canvas-animation.debug.js",
+    "watch:js": "onchange 'src/**/*.js' -- npm run js",
+    "test": "mocha-phantomjs -R dot test/spec/index.html",
+    "test:browser": "open test/spec/index.html",
+    "example": "open test/examples/index.html"
+  },
+  "dependencies": {
+    "is-element": "^0.1.0",
+    "lodash": "^4.15.0",
+    "to-array": "^0.1.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "browserify": "^12.0.1",
+    "chai": "^3.4.1",
+    "chai-as-promised": "^5.2.0",
+    "jsdoc": "^3.4.0",
+    "mocha": "^2.3.4",
+    "mocha-phantomjs": "^4.0.2",
+    "node-sass": "^3.3.3",
+    "onchange": "^2.5.0",
+    "parallelshell": "^2.0.0",
+    "postcss-cli": "^2.4.0",
+    "rsvp": "^3.2.1"
+  },
+  "bugs": {
+    "url": "https://github.com/kettle/canvas-animation/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kettle/canvas-animation"
+  },
+  "homepage": "https://github.com/kettle/canvas-animation",
+  "contributors": [
+    ""
+  ],
+  "keywords": [],
+  "engines": {
+    "node": ">=0.10.3"
+  },
+  "xo": {
+    "global": [
+      "document",
+      "window"
+    ]
+  },
+  "license": "MIT"
+}
