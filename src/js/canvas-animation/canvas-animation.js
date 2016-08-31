@@ -19,6 +19,7 @@ function CanvasAnimation (wrapper, options) {
 	this.properties = {};
 	// Bindings
 	this.createAndDraw = this.createAndDraw.bind(this);
+	this.resetAndDraw = this.resetAndDraw.bind(this);
 	this._setup(wrapper, options);
 	this._setDimensions();
 	this._addListeners();
@@ -50,6 +51,7 @@ CanvasAnimation.prototype._setup = function(wrapper, options) {
 
 CanvasAnimation.prototype._addListeners = function() {
 	this.elements.wrapper.addEventListener('click', this.createAndDraw);
+	window.addEventListener('resize', this.resetAndDraw);
 };
 
 CanvasAnimation.prototype._setDimensions = function() {
@@ -57,6 +59,11 @@ CanvasAnimation.prototype._setDimensions = function() {
 	this.properties.canvasDimensions.y = this.elements.wrapper.offsetHeight;
 	this.elements.canvas.width = this.properties.canvasDimensions.x;
 	this.elements.canvas.height = this.properties.canvasDimensions.y;
+};
+
+CanvasAnimation.prototype.resetAndDraw = function() {
+	this._setDimensions();
+	this.createAndDraw();
 };
 
 CanvasAnimation.prototype.createAndDraw = function() {
