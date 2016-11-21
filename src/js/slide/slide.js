@@ -40,4 +40,4 @@ proto.onMousemove = function(e) {
 	this.ctx.fill();
 };
 
-new Slide();
+module.exports = Slide;
