@@ -14,7 +14,7 @@
     "watch": "npm run build && parallelshell \"npm run watch:css\" \"npm run watch:js\"",
     "css": "node-sass src/scss/main.scss dist/css/main.css --output-style compressed && postcss --use autoprefixer dist/css/*.css -d dist/css/",
     "watch:css": "onchange 'src/scss/**/*.scss' -- npm run css",
-    "js": "browserify src/js/canvas-animation/canvas-animation.js -o dist/js/canvas-animation.js && browserify -r ./src/js/canvas-animation/canvas-animation.js:canvas-animation > dist/js/canvas-animation.debug.js",
+    "js": "browserify src/js/canvas-animation/canvas-animation.js src/js/painting/painting.js -o dist/js/canvas-animation.js && browserify -r ./src/js/painting/painting.js:painting -r ./src/js/canvas-animation/canvas-animation.js:canvas-animation > dist/js/canvas-animation.debug.js",
     "watch:js": "onchange 'src/**/*.js' -- npm run js",
     "test": "mocha-phantomjs -R dot test/spec/index.html",
     "test:browser": "open test/spec/index.html",
