@@ -8,6 +8,7 @@ function Painting() {
 var proto = Painting.prototype;
 
 proto.setup = function() {
+	this.colorSwitchCount = 0;
 	this.canvas = document.getElementById('canvas');
 	this.update();
 	this.ctx = this.canvas.getContext('2d');
@@ -16,11 +17,13 @@ proto.setup = function() {
 	// Bind listeners
 	this.update = this.update.bind(this);
 	this.onMousemove = this.onMousemove.bind(this);
+	this.onMouseClick = this.onMouseClick.bind(this);
 };
 
 proto.addListeners = function() {
 	window.addEventListener('resize', this.update);
 	this.canvas.addEventListener('mousemove', this.onMousemove);
+	this.canvas.addEventListener('click', this.onMouseClick);
 };
 
 proto.update = function() {
@@ -31,13 +34,28 @@ proto.update = function() {
 };
 
 proto.onMousemove = function(e) {
+	var rgbString;
 	this.ctx.beginPath();
 	this.ctx.arc(e.pageX, e.pageY, 70, 0, 2 * Math.PI, false);
-	var rgbString1 = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
-	var rgbString2 = 'rgb(100, ' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ')';
-	var rgbString3 = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', 100,' + Math.floor((e.pageY/this.height)*255) + ')';
-	this.ctx.fillStyle = rgbString1;
+	switch(this.colorSwitchCount) {
+		case 0:
+			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
+			break;
+		case 1:
+			rgbString = 'rgb(100, ' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ')';
+			break;
+		case 2:
+			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', 100,' + Math.floor((e.pageY/this.height)*255) + ')';
+			break;
+		default:
+			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
+	}
+	this.ctx.fillStyle = rgbString;
 	this.ctx.fill();
+};
+
+proto.onMouseClick = function(e) {
+	this.colorSwitchCount = (this.colorSwitchCount + 1) % 3;
 };
 
 module.exports = Painting;
