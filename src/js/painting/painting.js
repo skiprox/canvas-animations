@@ -36,7 +36,7 @@ proto.update = function() {
 proto.onMousemove = function(e) {
 	var rgbString;
 	this.ctx.beginPath();
-	this.ctx.arc(e.pageX, e.pageY, 70, 0, 2 * Math.PI, false);
+	this.ctx.arc(e.pageX, e.pageY, 20, 0, 2 * Math.PI, false);
 	switch(this.colorSwitchCount) {
 		case 0:
 			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
