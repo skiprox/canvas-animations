@@ -31,13 +31,17 @@ proto.update = function() {
 };
 
 proto.onMousemove = function(e) {
+	this.draw(e.pageX, e.pageY);
+};
+
+proto.draw = function(x, y) {
 	this.ctx.beginPath();
-	this.ctx.rect(e.pageX, 0, 10, this.height);
-	var rgbString1 = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
-	var rgbString2 = 'rgb(100, ' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ')';
-	var rgbString3 = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', 100,' + Math.floor((e.pageY/this.height)*255) + ')';
+	this.ctx.rect(x, 0, 10, this.height);
+	var rgbString1 = 'rgb(' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ', 100)';
+	var rgbString2 = 'rgb(100, ' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ')';
+	var rgbString3 = 'rgb(' + Math.floor((x/this.width)*255) + ', 100,' + Math.floor((y/this.height)*255) + ')';
 	this.ctx.fillStyle = rgbString1;
 	this.ctx.fill();
-};
+}
 
 module.exports = Slide;

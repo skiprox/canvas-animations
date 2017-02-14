@@ -1,5 +1,9 @@
 'use strict';
 
+var CONSTANT = {
+	radius: 30
+};
+
 function Painting() {
 	this.setup();
 	this.addListeners();
@@ -34,28 +38,36 @@ proto.update = function() {
 };
 
 proto.onMousemove = function(e) {
-	var rgbString;
-	this.ctx.beginPath();
-	this.ctx.arc(e.pageX, e.pageY, 20, 0, 2 * Math.PI, false);
-	switch(this.colorSwitchCount) {
-		case 0:
-			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
-			break;
-		case 1:
-			rgbString = 'rgb(100, ' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ')';
-			break;
-		case 2:
-			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', 100,' + Math.floor((e.pageY/this.height)*255) + ')';
-			break;
-		default:
-			rgbString = 'rgb(' + Math.floor((e.pageX/this.width)*255) + ', ' + Math.floor((e.pageY/this.height)*255) + ', 100)';
-	}
-	this.ctx.fillStyle = rgbString;
-	this.ctx.fill();
+	this.draw(e.pageX, e.pageY);
 };
 
 proto.onMouseClick = function(e) {
+	this.switchColor();
+};
+
+proto.switchColor = function() {
 	this.colorSwitchCount = (this.colorSwitchCount + 1) % 3;
+};
+
+proto.draw = function(x, y) {
+	var rgbString;
+	this.ctx.beginPath();
+	this.ctx.arc(x, y, CONSTANT.radius, 0, 2 * Math.PI, false);
+	switch(this.colorSwitchCount) {
+		case 0:
+			rgbString = 'rgb(' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ', 100)';
+			break;
+		case 1:
+			rgbString = 'rgb(100, ' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ')';
+			break;
+		case 2:
+			rgbString = 'rgb(' + Math.floor((x/this.width)*255) + ', 100,' + Math.floor((y/this.height)*255) + ')';
+			break;
+		default:
+			rgbString = 'rgb(' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ', 100)';
+	}
+	this.ctx.fillStyle = rgbString;
+	this.ctx.fill();
 };
 
 module.exports = Painting;
