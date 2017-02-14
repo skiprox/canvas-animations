@@ -1,12 +1,15 @@
 'use strict';
 
-var CONSTANT = {
-	radius: 30
+var CONSTANTS = {
+	radius: 5,
+	interval: 10,
+	duration: 5000
 };
 
 function Painting() {
 	this.setup();
-	this.addListeners();
+	//this.addListeners();
+	this.makeDrawing();
 }
 
 var proto = Painting.prototype;
@@ -14,12 +17,15 @@ var proto = Painting.prototype;
 proto.setup = function() {
 	this.colorSwitchCount = 0;
 	this.canvas = document.getElementById('canvas');
+	this.interval = null;
+	this.counter = 0;
 	this.update();
 	this.ctx = this.canvas.getContext('2d');
 	this.ctx.fillStyle = 'rgb(0, 0, 0)';
 	this.ctx.fillRect(0, 0, this.width, this.height);
 	// Bind listeners
 	this.update = this.update.bind(this);
+	this.updateDrawing = this.updateDrawing.bind(this);
 	this.onMousemove = this.onMousemove.bind(this);
 	this.onMouseClick = this.onMouseClick.bind(this);
 };
@@ -52,7 +58,7 @@ proto.switchColor = function() {
 proto.draw = function(x, y) {
 	var rgbString;
 	this.ctx.beginPath();
-	this.ctx.arc(x, y, CONSTANT.radius, 0, 2 * Math.PI, false);
+	this.ctx.arc(x, y, CONSTANTS.radius, 0, 2 * Math.PI, false);
 	switch(this.colorSwitchCount) {
 		case 0:
 			rgbString = 'rgb(' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ', 100)';
@@ -68,6 +74,24 @@ proto.draw = function(x, y) {
 	}
 	this.ctx.fillStyle = rgbString;
 	this.ctx.fill();
+};
+
+proto.makeDrawing = function() {
+	var i = 0, self = this;
+	this.interval = window.setInterval(this.updateDrawing, CONSTANTS.interval);
+};
+
+proto.updateDrawing = function() {
+	this.switchColor();
+	this.draw(Math.floor(Math.random() * this.width), Math.floor(Math.random() * this.height));
+	this.counter++;
+	if (this.counter >= CONSTANTS.duration) {
+		this.stopDrawing();
+	}
+}
+
+proto.stopDrawing = function() {
+	window.clearInterval(this.interval);
 };
 
 module.exports = Painting;
