@@ -1,8 +1,8 @@
 'use strict';
 
 var CONSTANTS = {
-	radius: 5,
-	interval: 10,
+	radius: 3,
+	interval: 5,
 	duration: 5000
 };
 
@@ -58,6 +58,9 @@ proto.switchColor = function() {
 proto.draw = function(x, y) {
 	var rgbString;
 	this.ctx.beginPath();
+	this.ctx.translate(this.width/2, this.height/2);
+	this.ctx.rotate(1.2*Math.PI/180);
+	this.ctx.translate(-this.width/2, -this.height/2);
 	this.ctx.arc(x, y, CONSTANTS.radius, 0, 2 * Math.PI, false);
 	switch(this.colorSwitchCount) {
 		case 0:

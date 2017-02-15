@@ -1,9 +1,9 @@
 'use strict';
 
 var CONSTANTS = {
-	width: 5,
+	width: 2,
 	interval: 10,
-	duration: 1000
+	duration: 2000
 };
 
 function Slide() {
@@ -46,6 +46,9 @@ proto.onMousemove = function(e) {
 
 proto.draw = function(x, y) {
 	this.ctx.beginPath();
+	this.ctx.translate(this.width/2, this.height/2);
+	this.ctx.rotate(1.2*Math.PI/180);
+	this.ctx.translate(-this.width/2, -this.height/2);
 	this.ctx.rect(x, 0, CONSTANTS.width, this.height);
 	var rgbString1 = 'rgb(' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ', 100)';
 	var rgbString2 = 'rgb(100, ' + Math.floor((x/this.width)*255) + ', ' + Math.floor((y/this.height)*255) + ')';
