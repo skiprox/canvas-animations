@@ -5,15 +5,15 @@ var merge = require('lodash/merge');
 var isElement = require('is-element');
 
 /**
- * CanvasAnimation constructor description
+ * CanvasShapes constructor description
  *
- * @class CanvasAnimation
+ * @class CanvasShapes
  * @classdesc CanvasAnimation class description
  *
  * @param {object} options - Instance instantiation object
  * @param {string} options.example - Example options property
  */
-function CanvasAnimation (wrapper, options) {
+function CanvasShapes (wrapper, options) {
 	this.elements = {};
 	this.settings = {};
 	this.properties = {};
@@ -26,12 +26,12 @@ function CanvasAnimation (wrapper, options) {
 	this.createAndDraw();
 }
 
-CanvasAnimation.DEFAULTS = {
+CanvasShapes.DEFAULTS = {
 	foregroundColors: ['#96CEB4', '#FFEEAD', '#FF6F69', '#FFCC5C', '#AAD8B0'],
 	backgroundColors: ['#FF5335', '#B29C85', '#306E73', '#3B424C', '#1D181F'],
 };
 
-module.exports = CanvasAnimation;
+module.exports = CanvasShapes;
 
 /**
  * @function public
@@ -39,39 +39,39 @@ module.exports = CanvasAnimation;
  * @param {number} tick - Description of tick parameter
  * @return {object} Description of returned value
  */
-CanvasAnimation.prototype._setup = function(wrapper, options) {
+CanvasShapes.prototype._setup = function(wrapper, options) {
 	this.elements.wrapper = isElement(wrapper) ? wrapper : document.querySelector(wrapper);
 	this.elements.canvas = this.elements.wrapper.querySelector('canvas');
 	this.elements.ctx = this.elements.canvas.getContext('2d');
-	this.settings = merge({}, CanvasAnimation.DEFAULTS, options || {});
+	this.settings = merge({}, CanvasShapes.DEFAULTS, options || {});
 	this.properties.canvasDimensions = {x: null, y: null};
 	this.properties.shapePointsArray = [];
 	this.properties.pointsLen = 0;
 };;
 
-CanvasAnimation.prototype._addListeners = function() {
+CanvasShapes.prototype._addListeners = function() {
 	this.elements.wrapper.addEventListener('click', this.createAndDraw);
 	window.addEventListener('resize', this.resetAndDraw);
 };
 
-CanvasAnimation.prototype._setDimensions = function() {
+CanvasShapes.prototype._setDimensions = function() {
 	this.properties.canvasDimensions.x = this.elements.wrapper.offsetWidth;
 	this.properties.canvasDimensions.y = this.elements.wrapper.offsetHeight;
 	this.elements.canvas.width = this.properties.canvasDimensions.x;
 	this.elements.canvas.height = this.properties.canvasDimensions.y;
 };
 
-CanvasAnimation.prototype.resetAndDraw = function() {
+CanvasShapes.prototype.resetAndDraw = function() {
 	this._setDimensions();
 	this.createAndDraw();
 };
 
-CanvasAnimation.prototype.createAndDraw = function() {
+CanvasShapes.prototype.createAndDraw = function() {
 	this.createPointsArray();
 	this.draw();
 };
 
-CanvasAnimation.prototype.createPointsArray = function() {
+CanvasShapes.prototype.createPointsArray = function() {
 	var arrLength = Math.max(4, Math.floor(Math.random() * 60));
 	this.properties.shapePointsArray = [];
 	for (var i = 0; i < arrLength; i++) {
@@ -84,7 +84,7 @@ CanvasAnimation.prototype.createPointsArray = function() {
 	}
 };
 
-CanvasAnimation.prototype.draw = function() {
+CanvasShapes.prototype.draw = function() {
 	this.elements.ctx.clearRect(0, 0, this.elements.canvas.width, this.elements.canvas.height);
     this.elements.ctx.fillStyle = this.settings.backgroundColors[Math.floor(Math.random() * this.settings.backgroundColors.length)];
     this.elements.ctx.fillRect(0, 0, this.properties.canvasDimensions.x, this.properties.canvasDimensions.y);
